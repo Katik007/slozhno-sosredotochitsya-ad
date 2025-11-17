@@ -1,5 +1,398 @@
-/* Основные стили проекта. Это стили для темы, которую вы верстаете первой. */
-
+/* ----- Общие стили для страницы и декоративных элементов ----- */
+/* Основные стили для всей страницы (фон, шрифт) */
 .page {
-  /* сохраните в разметке и стилях класс page у тега body. Он удобен, чтобы составлять селекторы для разных цветовых тем. */
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  font-family: 'IBM Plex mono', monospace;
+}
+
+/* Стили для декоративной рамки и общего контейнера секций (header, footer) */
+.decorated-zone {
+  position: relative;
+  display: grid;
+  min-height: calc(100vh - 40px);
+  margin: clamp(10px, 0.0286rem + 2.5445vw, 20px);
+}
+
+/* Псевдоэлемент для создания верхнего правого уголка рамки */
+.decorated-zone::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  content: '';
+  border-top: 1px solid var(--decorated-zone-border-color, #ff0070);
+  border-right: 1px solid var(--decorated-zone-border-color, #ff0070);
+}
+
+/* Псевдоэлемент для создания нижнего левого уголка рамки */
+.decorated-zone::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  content: '';
+  border-bottom: 1px solid var(--decorated-zone-border-color, #ff0070);
+  border-left: 1px solid var(--decorated-zone-border-color, #ff0070);
+}
+
+/* ----- Стили для шапки (header) ----- */
+/* Стилизация шапки: позиционирование, высота и грид-сетка */
+.header {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr min-content 1fr;
+}
+
+/* Стилизация декоративного элемента 'REC' в шапке */
+.header__rec {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  font-size: 18px;
+  line-height: 1.39;
+}
+
+/* Псевдоэлемент для создания светящейся точки рядом с 'REC' */
+.header__rec::after {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  width: 9px;
+  height: 9px;
+  content: '';
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  box-shadow: 0 0 4px 2px var(--accent-color);
+}
+
+/* Позиционирование контейнера с кнопками переключения тем */
+.header__theme-menu {
+  margin: 65px 0;
+  justify-self: end;
+}
+
+/* Стилизация списка кнопок: расположение, отступы */
+.header__theme-menu-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 5px 0 0 0;
+  list-style: none;
+  gap: 12px;
+}
+
+/* Общие стили для кнопок переключения тем */
+.header__theme-menu-button {
+  padding: 2px 12px;
+  cursor: pointer;
+  color: var(--menu-color);
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Стиль кнопки при наведении курсора */
+.header__theme-menu-button:hover {
+  outline: 1px solid var(--menu-hover-color);
+}
+
+/* Убираем стандартный outline при фокусе */
+.header__theme-menu-button:focus {
+  outline: none;
+}
+
+/* Добавляем кастомный стиль фокуса для доступности (при навигации с клавиатуры) */
+.header__theme-menu-button:focus-visible {
+  border-bottom: 1px solid var(--menu-color);
+}
+
+/* Стиль активной (нажатой) кнопки */
+.header__theme-menu-button_active {
+  pointer-events: none;
+  outline: 1px solid var(--menu-color);
+}
+
+/* Стилизация главного заголовка 'no focus' */
+.header__title {
+  margin: -15px 0 0 0;
+  color: var(--title-color);
+  text-shadow: 4px 4px 0 var(--accent-color);
+  font-size: clamp(7.25rem, 7.0115rem + 1.0178vw, 7.5rem);
+  line-height: 0.825;
+  grid-row: 2;
+}
+
+/* Позиционирование блока с описанием под заголовком */
+.header__description {
+  align-self: center;
+  grid-row: 3;
+  justify-self: end;
+  margin-top: -25px;
+}
+
+/* Стили для текста в блоке описания */
+.header__description-text {
+  margin: 5px 0 0 0;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 23.4px;
+}
+
+/* Общий класс для заголовков с цветным фоном */
+.title-decor {
+  color: var(--decorated-text-color);
+  background-color: var(--accent-color);
+}
+
+/* Адаптивные стили для планшетов (экраны шире 768px) */
+@media (width >= 768px) {
+  /* Корректировка размера и отступа главного заголовка */
+  .header__title {
+    margin: -40px -20px 0 -20px;
+    font-size: clamp(7.5rem, 0.5625rem + 14.4531vw, 9.8125rem);
+  }
+  /* Ограничение ширины и отступа блока описания */
+  .header__description {
+    margin-top: -46px;
+    max-width: 50%;
+  }
+  /* Отступ для меню тем */
+  .header__theme-menu-list {
+    padding: 110px 0 0 0;
+  }
+}
+
+/* Адаптивные стили для десктопов (экраны шире 1024px) */
+@media (width >= 1024px) {
+  /* Центрирование меню тем */
+  .header__theme-menu {
+    margin: 0;
+    justify-self: center;
+  }
+  /* Горизонтальное расположение кнопок в меню */
+  .header__theme-menu-list {
+    flex-direction: row;
+    padding: 0;
+  }
+}
+
+/* ----- Стили для основного контента (main) ----- */
+/* Отступы для основного контента */
+.main {
+  margin: -7px 10px 0 10px;
+}
+
+/* Общие стили для секций */
+.section {
+  margin: 0;
+  padding-top: 28px;
+  font-size: 18px;
+}
+
+/* Стили для ссылок в тексте */
+.link {
+  text-decoration: none;
+  color: var(--text-color);
+  text-shadow: 1.5px 1.5px 0 var(--accent-color);
+}
+
+/* Стили для заголовков секций */
+.section__title {
+  padding-bottom: 20px;
+  color: var(--menu-color);
+  font-size: 18px;
+  line-height: 23.4px;
+}
+
+/* Стили для заголовков статей */
+.article__title {
+  font-size: 18px;
+  line-height: 23.4px;
+}
+
+/* Нижний отступ для заголовка статьи в третьей секции */
+.section:nth-child(3) .article__title {
+  margin-bottom: 22px;
+}
+
+/* Стили для подзаголовков в статьях */
+.article__sub-title {
+  font-weight: normal;
+  font-size: 18px;
+}
+
+/* Стили для основного текста статей */
+.article__text {
+  padding: 10px 0 20px 0;
+  line-height: 23.4px;
+  color: var(--text-color);
+}
+
+/* Адаптивные стили для планшетов (экраны шире 768px) */
+@media (width >= 768px) {
+  /* Корректировка отступов для основного контента */
+  .main {
+    padding: 0 10px;
+    margin: -56px 10px 0 10px;
+  }
+  /* Увеличение верхнего отступа для секций */
+  .section {
+    padding-top: 60px;
+  }
+  /* Создание двухколоночной сетки для первой и третьей секций */
+  .section:first-child,
+  .section:nth-child(3) {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px 18px;
+  }
+  /* Корректировка отступа для первой секции */
+  .section:first-child {
+    padding-top: 76px;
+  }
+  /* Корректировка отступа для третьей секции */
+  .section:nth-child(3) {
+    padding-top: 60px;
+  }
+  /* Размещение заголовка секции в первой колонке */
+  .section__title {
+    grid-column: 1;
+    max-width: 236px;
+  }
+  /* Размещение контента секции во второй колонке */
+  .section__content {
+    grid-column: 2;
+  }
+}
+
+
+/* Адаптивные стили для десктопов (экраны шире 1024px) */
+@media (width >= 1024px) {
+  /* Снятие ограничения ширины с заголовка секции */
+  .section__title {
+    grid-column: 1;
+    max-width: none;
+  }
+  /* Настройка грид-сетки для первой и третьей секций */
+  .section:first-child,
+  .section:nth-child(3) {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px 12px;
+  }
+  /* Настройка грид-сетки для второй секции */
+  .section:nth-child(2) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 0;
+  }
+  /* Размещение заголовка второй секции */
+  .section:nth-child(2) .section__title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  /* Размещение контента второй секции и создание вложенной сетки */
+  .section:nth-child(2) .section__content {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+
+/* ----- Стили для галереи (gallery) ----- */
+/* Базовая грид-сетка для галереи */
+.gallery {
+  display: grid;
+  gap: 10px;
+  padding: 20px 0 50px 0;
+}
+
+/* Стили для изображений в галерее */
+.gallery__image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Убираем лишний отступ у первого изображения */
+.gallery__image:first-child {
+  margin-top: -10px;
+}
+
+/* Адаптивные стили для галереи на планшетах (экраны шире 768px) */
+@media (width >= 768px) {
+  /* Сложная грид-сетка с использованием grid-template-areas */
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1.25fr 1.65fr;
+    grid-template-areas: "wide wide food" "cassette books food" "cassette street street";
+    gap: 12px 20px;
+    padding: 20px 0 66px 0;
+  }
+  /* Растягивание изображений на всю ячейку грида */
+  .gallery__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  /* Размещение каждого изображения в своей области грида */
+  .gallery__image:nth-child(1) {
+    grid-area: wide;
+  }
+  .gallery__image:nth-child(2) {
+    grid-area: food;
+  }
+  .gallery__image:nth-child(3) {
+    grid-area: cassette;
+  }
+  .gallery__image:nth-child(4) {
+    grid-area: books;
+  }
+  .gallery__image:nth-child(5) {
+    grid-area: street;
+  }
+}
+
+/* ----- Стили для подвала (footer) ----- */
+/* Стилизация подвала: позиционирование и выравнивание контента */
+.footer {
+  margin-top: -10px;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Стилизация заголовка в подвале */
+.footer__title {
+  color: var(--title-color);
+  text-shadow: 2px 2px 0 var(--accent-color);
+  font-size: clamp(7.25rem, 7.0115rem + 1.0178vw, 7.5rem);
+  line-height: 0.825;
+}
+
+/* Адаптация размера заголовка в подвале для планшетов (экраны шире 768px) */
+@media (width >= 768px) {
+  .footer__title {
+    font-size: clamp(7.5rem, 0.5625rem + 14.4531vw, 9.8125rem);
+  }
 }

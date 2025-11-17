@@ -1,16 +1,35 @@
-/*
-  Специально для светлой темы при наличии класса.
-  Здесь окажутся стили, которые нужно переопределить принудительно,
-  переключая тему
-*/
-
-:root.theme-light {
-  /* сохраните этот селектор в приведённом виде.
-    Так стили написанные ниже будут иметь больший вес,
-    чем стили в медиазапросе предпочтений пользователя
-  */
+/* Скрываем элемент 'REC' в светлой теме */
+.theme-light .header__rec {
+  display: none;
 }
 
-.theme-light .page {
-  /* Вам также нужно будет написать ряд подобных селекторов */
+/* Переопределение переменных для принудительного включения светлой темы через класс .theme-light */
+:root.theme-light {
+  --accent-color: #ff8dcb;
+  --title-color: #ffc2e6;
+  --text-color: #353430;
+  --menu-color: #353430;
+  --menu-hover-color: rgba(53, 52, 48, 0.4);
+  --decorated-text-color: #353430;
+  --decorated-zone-border-color: #353430;
+  --bg-color: #fff1f7;
+  --bg-image: url(../images/cover-image-light.png);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --accent-color: #ff8dcb;
+    --title-color: #ffc2e6;
+    --text-color: #353430;
+    --menu-color: #353430;
+    --menu-hover-color: rgba(53, 52, 48, 0.4);
+    --decorated-text-color: #353430;
+    --decorated-zone-border-color: #353430;
+    --bg-color: #fff1f7;
+    --bg-image: url(../images/cover-image-light.png);
+  }
+
+  .header__rec {
+    display: none;
+  }
 }
